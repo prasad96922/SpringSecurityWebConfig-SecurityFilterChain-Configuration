@@ -4,10 +4,12 @@ import com.Lvprasad.SecurityAppApplication.SecurityApp.dto.LoginDTO;
 import com.Lvprasad.SecurityAppApplication.SecurityApp.dto.SignUpDTO;
 import com.Lvprasad.SecurityAppApplication.SecurityApp.dto.UserDTO;
 import com.Lvprasad.SecurityAppApplication.SecurityApp.entities.UserEntity;
+import com.Lvprasad.SecurityAppApplication.SecurityApp.exceptions.ResourceNotFoundException;
 import com.Lvprasad.SecurityAppApplication.SecurityApp.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +33,13 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User With email"+ username + "not found"));
+                .orElseThrow(() -> new BadCredentialsException("User not found with username: " + username));
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+//                .orElseThrow(() -> new ResourceNotFoundException("User With email :"+ username + "  not found"));
+    }
+
+    public UserEntity getUserById(Long id){
+        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User With email"+ id + "not found"));
     }
 
     public UserDTO signUp(SignUpDTO signUpDTO) {

@@ -2,17 +2,21 @@ package com.Lvprasad.SecurityAppApplication.SecurityApp.services;
 
 import com.Lvprasad.SecurityAppApplication.SecurityApp.dto.PostDTO;
 import com.Lvprasad.SecurityAppApplication.SecurityApp.entities.PostEntity;
+import com.Lvprasad.SecurityAppApplication.SecurityApp.entities.UserEntity;
 import com.Lvprasad.SecurityAppApplication.SecurityApp.exceptions.ResourceNotFoundException;
 import com.Lvprasad.SecurityAppApplication.SecurityApp.repositories.PostRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
@@ -41,6 +45,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO getPostById(Long postId) {
+        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        log.info("user-getPostById-SecurityContextHolder {}", user);
 
         PostEntity postEntity = postRepository
                 .findById(postId)

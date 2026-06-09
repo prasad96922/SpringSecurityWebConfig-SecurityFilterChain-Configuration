@@ -2,9 +2,8 @@ package com.Lvprasad.SecurityAppApplication.SecurityApp.services;
 
 
 import com.Lvprasad.SecurityAppApplication.SecurityApp.entities.UserEntity;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.Lvprasad.SecurityAppApplication.SecurityApp.exceptions.JwtAuthenticationException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -42,14 +41,30 @@ public class JwtService {
                 .compact();
     }
 
-    public  Long getUserIdFromToken(String token) {
+    public Long getUserIdFromToken(String token) {
+
         Claims claims = Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-         return Long.valueOf(claims.getSubject());
-//        return Long.parseLong(claims.get("id").toString());
 
+        return Long.valueOf(claims.getSubject());
+
+//        try {
+//
+//            Claims claims = Jwts.parser()
+//                    .verifyWith(getSecretKey())
+//                    .build()
+//                    .parseSignedClaims(token)
+//                    .getPayload();
+//
+//            return Long.valueOf(claims.getSubject());
+//
+//        } catch (ExpiredJwtException ex) {
+//            throw new JwtAuthenticationException("Token Expired");
+//        } catch (MalformedJwtException ex) {
+//            throw new JwtAuthenticationException("Invalid Token");
+//        }
     }
 }
