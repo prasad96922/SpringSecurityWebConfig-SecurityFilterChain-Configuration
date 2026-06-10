@@ -45,9 +45,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO getPostById(Long postId) {
-        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        log.info("user-getPostById-SecurityContextHolder {}", user);
+//        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        log.info("user-getPostById-SecurityContextHolder {}", user);
 
         PostEntity postEntity = postRepository
                 .findById(postId)

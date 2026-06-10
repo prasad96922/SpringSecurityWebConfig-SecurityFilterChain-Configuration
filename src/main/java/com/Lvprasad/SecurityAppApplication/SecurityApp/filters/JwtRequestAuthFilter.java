@@ -65,7 +65,7 @@ public class JwtRequestAuthFilter extends OncePerRequestFilter {
 
                 UserEntity user = userService.getUserById(userId);
                 log.info("user-JwtRequestAuthFilter {} logged in", user);
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, null);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
                 // webAuthentication details -> user information of ip:address , sessionIds, information about request,
                 // to set some rate limiting, specific attacks , ipaddress details
