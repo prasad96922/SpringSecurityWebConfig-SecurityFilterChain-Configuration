@@ -17,6 +17,11 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/home")
+    public String home() {
+        return "posts";
+    }
+
     @GetMapping
     public ResponseEntity<List<PostDTO>> getAllPosts() {
         return ResponseEntity.ok(postService.getAllPosts());

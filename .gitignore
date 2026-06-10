@@ -28,7 +28,15 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-!**/src/resources/application.yml
-!**/src/resources/application.properties
+
+# Spring Boot configuration files containing secrets
+src/main/resources/application.properties
+src/main/resources/application.yml
+src/main/resources/application.yaml
+
+src/main/resources/application*.properties
+src/main/resources/application*.yml
+src/main/resources/application*.yaml
+
 ### VS Code ###
 .vscode/

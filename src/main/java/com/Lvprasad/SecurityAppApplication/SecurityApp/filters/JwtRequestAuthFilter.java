@@ -49,7 +49,6 @@ public class JwtRequestAuthFilter extends OncePerRequestFilter {
             final String  requestTokenHeader = request.getHeader("Authorization");
             // Bearer asvx5dsdsda4a4sa
             log.info("requestTokenHeader {}", requestTokenHeader);
-
             if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -62,13 +61,10 @@ public class JwtRequestAuthFilter extends OncePerRequestFilter {
             log.info("jwtToken {}", jwtToken);
 
             Long userId = jwtService.getUserIdFromToken(jwtToken);
-
             if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UserEntity user = userService.getUserById(userId);
-
                 log.info("user-JwtRequestAuthFilter {} logged in", user);
-
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, null);
 
                 // webAuthentication details -> user information of ip:address , sessionIds, information about request,
@@ -76,7 +72,6 @@ public class JwtRequestAuthFilter extends OncePerRequestFilter {
                 authenticationToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
-
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
             filterChain.doFilter(request, response);

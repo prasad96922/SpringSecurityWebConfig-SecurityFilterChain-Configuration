@@ -42,6 +42,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User With email"+ id + "not found"));
     }
 
+    public UserEntity getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
     public UserDTO signUp(SignUpDTO signUpDTO) {
        Optional<UserEntity> user =  userRepository.findByEmail(signUpDTO.getEmail());
        if(user.isPresent()){
@@ -51,6 +55,10 @@ public class UserService implements UserDetailsService {
        UserEntity  toBeCreatedUser = modelMapper.map(signUpDTO,UserEntity.class);
        toBeCreatedUser.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
        return modelMapper.map(userRepository.save(toBeCreatedUser), UserDTO.class);
+    }
+
+    public UserEntity save(UserEntity newUser) {
+        return userRepository.save(newUser);
     }
 
 //    public String login(LoginDTO loginDTO) {
