@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.Lvprasad.SecurityAppApplication.SecurityApp</groupId>
-	<artifactId>prod-ready-features-BE</artifactId>
+	<artifactId>SecurityAppApplication</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
