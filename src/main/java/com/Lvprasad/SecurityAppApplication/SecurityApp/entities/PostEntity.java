@@ -23,5 +23,7 @@ public class PostEntity {
     private String title;
     private String content;
 
-
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private UserEntity author;
 }

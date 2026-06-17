@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.access.AccessDeniedException;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,15 +25,6 @@ public class GlobalExceptionHandler {
 
         return buildErrorResponseEntity(apiError);
     }
-
-    private ResponseEntity<ApiResponse<?>> buildErrorResponseEntity(ApiError apiError) {
-        return new ResponseEntity<>(new ApiResponse<>(apiError), apiError.getStatus());
-    }
-
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ApiResponse<?>> handleException(Exception exception) {
-//        return new ResponseEntity<>(new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiResponse<?>> handleAuthenticationException(AuthenticationException exception) {
@@ -51,17 +44,18 @@ public class GlobalExceptionHandler {
         return buildErrorResponseEntity(apiError);
     }
 
-//    @ExceptionHandler(JwtAuthenticationException.class)
-//    public ResponseEntity<ApiResponse<?>> handleJwtException(
-//            JwtAuthenticationException ex) {
-//
-//        ApiError apiError = ApiError.builder()
-//                .error(ex.getLocalizedMessage())
-//                .status(HttpStatus.UNAUTHORIZED)
-//                .build();
-//
-//        return buildErrorResponseEntity(apiError);
-//    }
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<?>> handleAccessDeniedException(AccessDeniedException exception) {
+        ApiError apiError = ApiError.builder()
+                .error(exception.getLocalizedMessage())
+                .status(HttpStatus.FORBIDDEN)
+                .build();
+        return buildErrorResponseEntity(apiError);
+    }
+
+    private ResponseEntity<ApiResponse<?>> buildErrorResponseEntity(ApiError apiError) {
+        return new ResponseEntity<>(new ApiResponse<>(apiError), apiError.getStatus());
+    }
 
 
 }

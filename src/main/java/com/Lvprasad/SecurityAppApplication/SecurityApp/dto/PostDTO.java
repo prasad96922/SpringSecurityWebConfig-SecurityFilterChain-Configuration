@@ -15,4 +15,6 @@ PostDTO {
     private String title;
     private String content;
 
+    private UserDTO author;
+
 }
